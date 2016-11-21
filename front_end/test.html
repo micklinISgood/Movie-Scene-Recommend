@@ -1,0 +1,78 @@
+<!-- http://www.w3schools.com/html/tryit.asp?filename=tryhtml5_video_js_prop -->
+<!DOCTYPE html>
+<html>
+<body>
+
+<div style="text-align:center">
+ 
+  <video id="video1" width="420" controls>
+    <source src="https://s3-us-west-2.amazonaws.com/sadmovie/Toy-Story-3-Bonnie-Memorable-Moments-fJ3JIEQtxyU.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+</div>
+
+
+
+
+<div style="text-align:center">
+    <p>Watched Interval: <p id="para"></p></p>
+</div>
+<div style="text-align:center">
+ 
+  <video id="video2" width="420" controls>
+    <source src="https://s3-us-west-2.amazonaws.com/sadmovie/No-Strings-Attached-Sad-Scene-9yVrWNaBqpk.mp4" type="video/mp4" controls>
+    Your browser does not support HTML5 video.
+  </video>
+</div>
+<div style="text-align:center">
+ 
+  <video id="video3" width="420" controls>
+    <source src="https://s3-us-west-2.amazonaws.com/sadmovie/Wreck-It-Ralph-You-Really-Are-A-Bad-Guy-Clip-(HD)-USHi4s_rHqQ.mp4" type="video/mp4" controls>
+    Your browser does not support HTML5 video.
+  </video>
+</div>
+<div style="text-align:center">
+ 
+  <video id="video4" width="420" controls>
+    <source src="https://s3-us-west-2.amazonaws.com/sadmovie/Up-F2bk_9T482g.webm" type="video/mp4" >
+    Your browser does not support HTML5 video.
+  </video>
+</div>
+<script>
+var last_m=[],start;
+var myVideo = document.getElementById("video1");
+myVideo.ontimeupdate = show;
+myVideo.onplay = play;
+myVideo.onpause= pause;
+myVideo.onseeked= seeked;
+myVideo.controls = true;
+function seeked(){
+        start = myVideo.currentTime;
+        myVideo.play();
+}
+function show(){
+        last_m.push(myVideo.currentTime);
+}
+function play() {
+        start = myVideo.currentTime;
+}
+function pause() {
+      
+        console.log("watched interval:"+start+":"+last_m[last_m.length-3]);
+    var para = document.getElementById("para");
+    para.innerHTML = start+":"+last_m[last_m.length-3];
+        //upload interval here
+        last_m=[];
+}
+function makeBig() {
+    myVideo.width = 560;
+}
+function makeSmall() {
+    myVideo.width = 320;
+}
+function makeNormal() {
+    myVideo.width = 420;
+}
+</script>
+</body>
+</html>
