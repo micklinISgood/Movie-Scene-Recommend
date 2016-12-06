@@ -1,7 +1,7 @@
 var socket = io.connect('http://' + document.domain + ':' + 6888);
    socket.on('connect', function() {
-   		console.log("open");
-        socket.emit('my event', {data: 'I\'m connected!'});
+   		// console.log("open");
+        socket.emit('init', {data: 'I\'m connected!'});
    });
 
 if (getCookie("mid")==""){
@@ -48,6 +48,7 @@ function getVid(mid) {
 
 function videoClick () {
 	console.log(this);
+	
 	getVid(this.id);
 	// body...
 }

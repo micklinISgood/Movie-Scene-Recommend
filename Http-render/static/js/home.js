@@ -85,7 +85,19 @@ function pause() {
     console.log("pause");
       
     console.log("watched interval:"+start+":"+last_m[last_m.length-3]);
-        //upload interval here
+
+    //filter out invalid
+    if(last_m[last_m.length-3] === undefined || start > last_m[last_m.length-3] ) return;
+   
+    //upload interval here
+    data ={}
+    if(getCookie("uid")==""){
+        data["uid"]="non-login";
+    }
+    data["watch_interval"]=start+":"+last_m[last_m.length-3];
+    data["mid"]=getCookie("mid");
+    socket.emit('watch_interval', data);
+
 
     last_m=[];
 }
@@ -102,18 +114,7 @@ function makeNormal() {
     myVideo.width = 420;
 }
 
-function addTrackLinkListenerFunction(){
-    var recommendationList = document.getElementsByClassName("recommended-movie");
-    console.log("hihihi", recommendationList);
-    for (var i = 0; i < recommendationList.length ; i++){
-        recommendationList[i].addEventListener("click", function(event){
-            event.preventDefault();
-            console.log("clicked on link", event.target.parentNode.getAttribute('href'));
-        });
-    }
-}
 
-addTrackLinkListenerFunction();
 
 
 

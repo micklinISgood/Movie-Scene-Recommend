@@ -8,9 +8,15 @@ app.config['SECRET_KEY'] = 'secret!'
 # app.port = 6888
 socketio = SocketIO(app)
 
-@socketio.on('my event')
+@socketio.on('init')
 def handle_my_custom_event(json):
     print('received json: ' + str(json))
+
+
+@socketio.on('watch_interval')
+def handle_my_custom_event(json):
+    print json["uid"]
+    print('received watch: ' + str(json))
 
 if __name__ == '__main__':
 
