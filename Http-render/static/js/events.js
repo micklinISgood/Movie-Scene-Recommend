@@ -1,3 +1,8 @@
+var socket = io.connect('http://' + document.domain + ':' + 6888);
+   socket.on('connect', function() {
+   		console.log("open");
+        socket.emit('my event', {data: 'I\'m connected!'});
+   });
 
 if (getCookie("mid")==""){
 	setCookie("mid", "F2bk_9T482g", 360);

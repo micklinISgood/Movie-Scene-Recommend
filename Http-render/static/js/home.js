@@ -28,21 +28,21 @@ var addToggleLikeIconListener = function(icon){
     console.log("icon", icon)
 	icon.addEventListener("click", function(){
 	likeMainVideo = !likeMainVideo;
-        console.log(likeMainVideo);
+        // console.log(likeMainVideo);
 	});
 }
 
 var addToggleThumbUpIconListener = function(icon){
     icon.addEventListener("click", function(){
     thumbUp = !thumbUp;
-        console.log(thumbUp);
+        // console.log(thumbUp);
     });
 }
 
 var addToggleThumbDownIconListener = function(icon){
     icon.addEventListener("click", function(){
     thumbDown = !thumbDown;
-        console.log(thumbDown);
+        // console.log(thumbDown);
     });
 }
 
@@ -69,15 +69,15 @@ myVideo.controls = true;
 function seeked(){
         start = myVideo.currentTime;
         myVideo.play();
-        console.log("play video");
+        // console.log("play video");
 }
 function show(){
         last_m.push(myVideo.currentTime);
-        console.log("show");
+        // console.log("show");
 }
 function play() {
         start = myVideo.currentTime;
-        console.log("start");
+        // console.log("start");
 
 }
 function pause() {
