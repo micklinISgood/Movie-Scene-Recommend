@@ -96,6 +96,7 @@ function pause() {
     }
     data["watch_interval"]=start+":"+last_m[last_m.length-3];
     data["mid"]=getCookie("mid");
+    data["epoch"]=new Date().getTime();
     socket.emit('watch_interval', data);
 
 
