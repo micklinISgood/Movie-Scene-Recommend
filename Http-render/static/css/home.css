@@ -1,0 +1,35 @@
+body{
+	background-color: #000000;
+	padding: 2%; 
+};
+
+
+div#logged-in-user-info{
+	color: red;
+	display: inline-block;
+	width: 4%;
+	font-size: 100px;
+}
+
+#main-video-icon-session {
+    float: right;
+    color: white;
+}
+
+.recommended-movie span{
+	color: #fff;
+	padding:2% 
+}
+
+.recommended-movie a{
+text-decoration: none;
+
+}
+
+aside img{
+	width: 100%;
+}
+aside span{
+	display: inline-block;
+	width: 100%
+}

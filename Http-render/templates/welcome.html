@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Welcome</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/static/css/stylish-portfolio.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body style="width:100%; background:url('/static/img/bg.jpg');background-size: cover;">
+
+    <!-- Header -->
+    <header id="top" class="header">
+        <div class="text-vertical-center">
+            <h1>Welcome</h1>
+            <br>
+            <a href="/signin" class="btn btn-dark btn-lg" onClick="signIn">Sign In</a>
+            <a href="/signup" class="btn btn-dark btn-lg">Sign Up</a>
+        </div>
+    </header>
+
+    <div class="sign-in-dialogue" style="display: none">
+        <div class="hint"></div>
+        <form action="/adduser" method="post">
+            <div class="container">
+                <label><b>Username</b></label>
+                <input id="sign-in-username" type="text" placeholder="Your Username" name="uname" required>
+
+                <label><b>Password</b></label>
+                <input id="sign-in-password" type="password" placeholder="Your Password" name="psw" required>
+
+                <button type="submit" id="sign-in-button">Sign In</button>
+                <input type="checkbox" checked="checked"> Remember me
+            </div>
+              <div class="container" style="background-color:#f1f1f1">
+               <span class="psw"><a href="#">Forgot password?</a></span>
+              </div>
+        </form>
+    </div>
+    
+    <div>
+        
+    </div>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/welcome.js"></script>
+</body>
+
+</html>

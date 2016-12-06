@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Sign Up</title>
+</head>
+<body>
+	<main>
+		<form action="/adduser" method="POST">
+			<div class="container">
+                <div class="form-group">
+                    <label><b>Username</b></label>
+                    <input class="form-control" type="text" placeholder="Your Username" name="UName">
+                    <label><b>Password</b></label>
+                    <input class="form-control" placeholder="Your Password" name="PSW">
+                    <label><b>Confirm Password</b></label>
+                    <input class="form-control" placeholder="Your Password" name="RPSW">
+                    <label><b>Email</b></label>
+                    <input class="form-control" placeholder="Your email" name="EMAIL">
+                </div>
+                <button type="submit" class="btn btn-info">Sign up</button>
+ 			</div>
+		</form>
+        {% if msg %}
+      <h1>{{ msg }}!</h1>
+        {% endif %}
+	</main>
+</body>
+<script>
+	
+
+</script>
+</html>
