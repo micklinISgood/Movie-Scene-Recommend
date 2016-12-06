@@ -21,6 +21,7 @@ def handle_my_custom_event(json):
     # print json["uid"]
     # print 'remote connected ip: %s'%request.remote_addr
     json["remote_addr"] = request.remote_addr
+    json["event"] = 'watch_interval'
     print json
     sns_conn.publish(
 					topic="arn:aws:sns:us-east-1:612129620405:watch_interval",
@@ -28,6 +29,30 @@ def handle_my_custom_event(json):
 	)
     # print('received watch: ' + str(json))
 
+@socketio.on('click_video')
+def click_video(json):
+    # print json["uid"]
+    # print 'remote connected ip: %s'%request.remote_addr
+    json["remote_addr"] = request.remote_addr
+    json["event"] = 'click_video'
+    print json
+    sns_conn.publish(
+					topic="arn:aws:sns:us-east-1:612129620405:watch_interval",
+					message=json
+	)
+
+@socketio.on('rec_list')
+def rec_list(json):
+    # print json["uid"]
+    # print 'remote connected ip: %s'%request.remote_addr
+    json["remote_addr"] = request.remote_addr
+    json["event"] = 'rec_list'
+    print json
+    sns_conn.publish(
+					topic="arn:aws:sns:us-east-1:612129620405:watch_interval",
+					message=json
+	)
+	
 if __name__ == '__main__':
 
 

@@ -20,7 +20,7 @@ function getVid(mid) {
 	  		ret= data.data;
 	
 	  		if(ret["mid"]==null) return false;
-	  		console.log(ret);
+	  		//console.log(ret);
 	  		setCookie("mid", ret["mid"], 360);
 	  		vid = document.getElementById("html-main-video");
 	  		vid.src=ret["mlink"];
@@ -41,14 +41,39 @@ function getVid(mid) {
 	  			a.appendChild(p);
 	  			rec.appendChild(a);
 	  		}
+	  		
+
 	  		vid.play();
+	  		track_rec_list (ret["rec_list"]);
 
 	  });
 }
 
 function videoClick () {
-	console.log(this);
-	
+	// console.log(this);
+
 	getVid(this.id);
+	data ={}
+    if(getCookie("uid")==""){
+        data["uid"]="non-login";
+    }
+    data["mid"]=this.id;
+    data["epoch"]=new Date().getTime();
+    socket.emit('click_video', data);
 	// body...
+}
+
+function track_rec_list (rec_list) {
+	list_id =[]
+	for(var i in rec_list){
+		list_id.push(rec_list[i]["mid"])
+	}
+	data ={}
+    if(getCookie("uid")==""){
+        data["uid"]="non-login";
+    }
+    data["rec_list"]=list_id;
+    data["epoch"]=new Date().getTime();
+    socket.emit('rec_list', data);
+
 }
