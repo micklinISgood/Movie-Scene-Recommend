@@ -73,6 +73,16 @@ function seeked(){
 }
 function show(){
         last_m.push(myVideo.currentTime);
+        if(getCookie("uid")=="" && last_m.length ==4){
+            var person = prompt("Please enter your email to keep watching video", "xxx@gmail.com");
+
+            if (person != null) {
+                //change layout here
+                // console.log(person);
+                setCookie("uid", person, 360);
+            }
+
+        }
         // console.log("show");
 }
 function play() {
@@ -82,17 +92,20 @@ function play() {
 }
 function pause() {
 
-    console.log("pause");
+    // console.log("pause");
       
-    console.log("watched interval:"+start+":"+last_m[last_m.length-3]);
+    // console.log("watched interval:"+start+":"+last_m[last_m.length-3]);
 
     //filter out invalid
     if(last_m[last_m.length-3] === undefined || start > last_m[last_m.length-3] ) return;
    
     //upload interval here
     data ={}
-    if(getCookie("uid")==""){
+    var uid = getCookie("uid");
+    if(uid==""){
         data["uid"]="non-login";
+    }else{
+        data["uid"]=uid;
     }
     data["watch_interval"]=start+":"+last_m[last_m.length-3];
     data["mid"]=getCookie("mid");

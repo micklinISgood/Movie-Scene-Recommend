@@ -54,8 +54,11 @@ function videoClick () {
 
 	getVid(this.id);
 	data ={}
-    if(getCookie("uid")==""){
+	var uid = getCookie("uid");
+    if(uid==""){
         data["uid"]="non-login";
+    }else{
+        data["uid"]=uid;
     }
     data["mid"]=this.id;
     data["epoch"]=new Date().getTime();
@@ -66,8 +69,11 @@ function videoClick () {
 function track_rec_list (rec_list) {
 	
 	data ={}
-    if(getCookie("uid")==""){
+	var uid = getCookie("uid");
+    if(uid==""){
         data["uid"]="non-login";
+    }else{
+        data["uid"]=uid;
     }
     data["rec_list"]=rec_list;
     data["epoch"]=new Date().getTime();
