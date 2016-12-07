@@ -55,5 +55,6 @@ def rec_list(json_data):
 	
 if __name__ == '__main__':
 
-
-    socketio.run(app, port=6888)
+    #open external connections
+    host = '0.0.0.0'
+    socketio.run(app, host=host,port=6888)
