@@ -25,7 +25,7 @@ var unThumbDownIcon= getMainVideoIconByClassName('fa-thumbs-down');
 
 var addToggleLikeIconListener = function(icon){
 
-    console.log("icon", icon)
+    // console.log("icon", icon)
 	icon.addEventListener("click", function(){
 	likeMainVideo = !likeMainVideo;
         // console.log(likeMainVideo);
