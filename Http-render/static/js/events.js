@@ -4,9 +4,7 @@ var socket = io.connect('http://' + document.domain + ':' + 6888);
         socket.emit('init', {data: 'I\'m connected!'});
    });
 
-if (getCookie("mid")==""){
-	setCookie("mid", "F2bk_9T482g", 360);
-}
+
 getVid(getCookie("mid"));
 
 function getVid(mid) {
@@ -29,9 +27,11 @@ function getVid(mid) {
 	  		text.innerHTML= ret["name"];
 	  		rec = document.getElementById("recommendation-section");
 	  		rec.innerHTML="";
+	  		list_id =[];
 	  		for( var i in ret["rec_list"]){
 	  			var a = document.createElement('a');
 	  			a.id=ret["rec_list"][i]["mid"];
+	  			list_id.push(ret["rec_list"][i]["mid"])
 	  			a.onclick = videoClick; 
 	  			img= document.createElement('img');
 	  			img.src=ret["rec_list"][i]["mimg"];
@@ -44,7 +44,7 @@ function getVid(mid) {
 	  		
 
 	  		vid.play();
-	  		track_rec_list (ret["rec_list"]);
+	  		track_rec_list (list_id);
 
 	  });
 }
@@ -60,19 +60,16 @@ function videoClick () {
     data["mid"]=this.id;
     data["epoch"]=new Date().getTime();
     socket.emit('click_video', data);
-	// body...
+
 }
 
 function track_rec_list (rec_list) {
-	list_id =[]
-	for(var i in rec_list){
-		list_id.push(rec_list[i]["mid"])
-	}
+	
 	data ={}
     if(getCookie("uid")==""){
         data["uid"]="non-login";
     }
-    data["rec_list"]=list_id;
+    data["rec_list"]=rec_list;
     data["epoch"]=new Date().getTime();
     socket.emit('rec_list', data);
 

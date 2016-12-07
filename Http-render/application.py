@@ -142,7 +142,15 @@ def signin():
 
 @app.route('/home')
 def home():
-    return render_template('home.html')
+    data={}
+    try:
+      cursor = g.conn.execute("select mid from movie order by random() limit 1 ")
+      data["mid"] = cursor.fetchone()[0]
+    except Exception as e:
+          print e   
+
+    # print data
+    return render_template('home.html',key=data)
 
 ##add a new user
 @app.route('/adduser', methods=['POST'])

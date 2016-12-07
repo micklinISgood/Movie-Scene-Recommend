@@ -62,8 +62,14 @@
  	</aside>
  	<script src="/js/jquery.min.js"></script>
  	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-
- 	<script src="/js/util.js"></script>
+    <script src="/js/util.js"></script>
+    <script >
+    		var rand_mid = {{ key|tojson }};
+    		// console.log(rand_mid);
+    		if (getCookie("mid")==""){
+    			setCookie("mid", rand_mid["mid"], 360);
+    		}
+    </script>
  	<script src="/js/events.js"></script>
 	<script src="/js/home.js"></script>
 	
