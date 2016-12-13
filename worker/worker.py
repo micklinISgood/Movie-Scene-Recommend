@@ -4,4 +4,4 @@ q=conn.get_queue('watch_interval')
 for message in q.get_messages():
 	body = json.loads(message.get_body())
 	msg =json.loads(body["Message"])
-	print msg
+	print body["Message"]
