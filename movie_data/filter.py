@@ -6,18 +6,26 @@ movies = open('movies.csv', 'rb')
 spamreader = csv.reader(header, delimiter=',')
 mreader = csv.reader(movies, delimiter=',')
 
-collect = [row[1] for row in spamreader]
+collect ={} 
+for row in spamreader:
+		collect[row[1]] = row
 
 # print collect
+out = open('joined.csv', 'wb') 
+spamwriter = csv.writer(out, delimiter=',',
+                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+
 
 ret ={}
 for row in mreader:
 	# if "up (2009)" in row[1].lower():
 	# 	print row
-	for s in collect:
+	for s in collect.keys():
 		if s.lower() == row[1].lower():
 			# print row
-			ret[s]=(row)
+			collect[s].append(row[0])
+			spamwriter.writerow(collect[s])
+			ret[s] = row
 			break
 
 	# print row
