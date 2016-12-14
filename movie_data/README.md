@@ -50,3 +50,5 @@ You should get result
 ```
 ##Copy the exact name without quote to our spreadsheet, Ice Age: A Mammoth Christmas (2011), for example.
 
+If you can not find the movie in movies.csv, find a movie from it and upload a new video to S3 please.
+
