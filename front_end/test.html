@@ -10,6 +10,7 @@
     <source src="https://s3-us-west-2.amazonaws.com/sadmovie/Toy-Story-3-Bonnie-Memorable-Moments-fJ3JIEQtxyU.mp4" type="video/mp4">
     Your browser does not support HTML5 video.
   </video>
+  <div ><p>Total length: <p id="t1"></p></p></div>
 </div>
 
 
@@ -24,6 +25,7 @@
     <source src="https://s3-us-west-2.amazonaws.com/sadmovie/No-Strings-Attached-Sad-Scene-9yVrWNaBqpk.mp4" type="video/mp4" controls>
     Your browser does not support HTML5 video.
   </video>
+   <div ><p>Total length: <p id="t2"></p></p></div>
 </div>
 <div style="text-align:center">
  
@@ -31,6 +33,7 @@
     <source src="https://s3-us-west-2.amazonaws.com/sadmovie/Wreck-It-Ralph-You-Really-Are-A-Bad-Guy-Clip-(HD)-USHi4s_rHqQ.mp4" type="video/mp4" controls>
     Your browser does not support HTML5 video.
   </video>
+   <div ><p>Total length: <p id="t3"></p></p></div>
 </div>
 <div style="text-align:center">
  
@@ -38,10 +41,15 @@
     <source src="https://s3-us-west-2.amazonaws.com/sadmovie/Up-F2bk_9T482g.mp4" type="video/mp4" >
     Your browser does not support HTML5 video.
   </video>
+   <div ><p>Total length: <p id="t4"></p></p></div>
 </div>
 <script>
 var last_m=[],start;
 var myVideo = document.getElementById("video1");
+myVideo.addEventListener('loadedmetadata', function() {
+    var text = document.getElementById("t1");
+    text.innerHTML = myVideo.duration;
+});
 myVideo.ontimeupdate = show;
 myVideo.onplay = play;
 myVideo.onpause= pause;
@@ -74,6 +82,21 @@ function makeSmall() {
 function makeNormal() {
     myVideo.width = 420;
 }
+var myVideo2 = document.getElementById("video2");
+myVideo2.addEventListener('loadedmetadata', function() {
+    var text = document.getElementById("t2");
+    text.innerHTML = myVideo2.duration;
+});
+var myVideo3 = document.getElementById("video3");
+myVideo3.addEventListener('loadedmetadata', function() {
+    var text = document.getElementById("t3");
+    text.innerHTML = myVideo3.duration;
+});
+var myVideo4 = document.getElementById("video4");
+myVideo4.addEventListener('loadedmetadata', function() {
+    var text = document.getElementById("t4");
+    text.innerHTML = myVideo4.duration;
+});
 </script>
 </body>
 </html>
