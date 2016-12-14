@@ -8,12 +8,11 @@ mreader = csv.reader(movies, delimiter=',')
 
 collect ={} 
 for row in spamreader:
-		collect[row[1]] = row
+		collect[row[2]] = row
 
 # print collect
 out = open('joined.csv', 'wb') 
-spamwriter = csv.writer(out, delimiter=',',
-                            quotechar='|', quoting=csv.QUOTE_MINIMAL)
+spamwriter = csv.writer(out, delimiter=',', quoting=csv.QUOTE_MINIMAL)
 
 
 ret ={}
@@ -32,6 +31,9 @@ for row in mreader:
 ret = sorted(ret.items(),key= lambda x:x[0])
 collect = sorted(collect)
 
+
+for k in collect:
+	print k
 for k in ret:
 	print k
 print len(ret)
