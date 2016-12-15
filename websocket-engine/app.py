@@ -11,6 +11,23 @@ socketio = SocketIO(app)
 online = {}
 SidToUid = {}
 
+
+def cleanUserByUid(uid):
+    try :
+        sid = online[uid]
+        if uid in online: del online[uid]
+        if sid in SidToUid: del SidToUid[sid]
+    except Exception as e:
+          print e 
+
+def cleanUserBySid(sid):
+    try : 
+        uid = SidToUid[sid]
+        if uid in online: del online[uid]
+        if sid in SidToUid: del SidToUid[sid]
+    except Exception as e:
+          print e    
+
 @socketio.on('connect')
 def remote():
     print request.sid
@@ -19,18 +36,16 @@ def remote():
 
 @socketio.on('disconnect')
 def close():
-    print online
-    try:
-        uid = SidToUid[request.sid]
-        if uid in online: del online[uid]
-        if request.sid in SidToUid: del SidToUid[request.sid]
-        print online
-        for k,v in online.items():
-            emit('message',uid+" left",room=v)
-        print request.sid
-        print 'remote close ip: %s'%request.remote_addr
-    except Exception as e:
-          print e   
+    cleanUserBySid(request.sid)
+    print 'remote close ip: %s'%request.remote_addr
+    # print online
+    
+        # print online
+        # for k,v in online.items():
+            # send to specific user
+            # emit('message',uid+" left",room=v)
+        # print request.sid
+ 
 
 @socketio.on('init')
 def handle_my_custom_event(json_data):
@@ -91,11 +106,27 @@ def rec_list(json_data):
 
 @socketio.on('message')
 def handle_message(message):
-
     print('received message: ' + message)
-	
+    data = json.loads(message)
+    print data
+    sendRecommendation(data["uid"], data["rec_list"])
+
+
+def sendRecommendation(uid, rec_list):
+    if uid in online:
+        data = {}
+        data["action"] = "rec"
+        data["rec_list"] = rec_list
+        try:
+            emit('message',json.dumps(data),room=online[uid])
+        except Exception as e:
+            cleanUserByUid(uid)
+            print e 
+
 if __name__ == '__main__':
 
     #open external connections
     host = '0.0.0.0'
-    socketio.run(app, host=host,port=6888)
+    port = 6888
+    print "WebSocket engine listen @ %d"%port
+    socketio.run(app, host=host,port=port)
