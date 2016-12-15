@@ -1,4 +1,6 @@
 import csv
+from path import path
+
 
 header = open('vc.csv', 'rb')
 movies = open('movies.csv', 'rb')
@@ -31,12 +33,12 @@ for row in mreader:
 ret = sorted(ret.items(),key= lambda x:x[0])
 # collect = sorted(collect)
 
-print "Matched movies: %d"%(len(ret))
+print "Matched movies: %d, csv file path: %s"%(len(ret), path('joined.csv').abspath())
 print "Unmatched movies:"
 for k,v in collect.items():
 	if len(v) != 7:
 		print k
 
-
+out.close()
 movies.close()	
 header.close()
