@@ -95,8 +95,12 @@ def getmid():
 
 
   ret =[]
-  for k in random.sample(movie_meta.keys(), 5):
-      if k == mid: continue
+  #skip now playing
+  total_id = movie_meta.keys()
+  total_id.remove(mid)
+
+  # sample not playing
+  for k in random.sample(total_id, 5):
       in_data={}
       in_data["mid"]=k 
       in_data["name"]=movie_meta[k][2]
