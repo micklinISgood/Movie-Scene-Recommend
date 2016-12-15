@@ -4,6 +4,16 @@ var socket = io.connect('http://' + document.domain + ':' + 6888);
         socket.emit('init', {data: 'I\'m connected!'});
    });
 
+logoutbtn = document.getElementById("logout");
+logoutbtn.onclick = nullCookie;
+
+
+function nullCookie () {
+	setCookie("uid", "", 0);
+	setCookie("mid", "", 0);
+	location.reload();
+	// body...
+}
 
 getVid(getCookie("mid"));
 
@@ -42,7 +52,7 @@ function getVid(mid) {
 	  			rec.appendChild(a);
 	  		}
 	  		
-
+	  		last_m=[];
 	  		vid.play();
 	  		track_rec_list (list_id);
 

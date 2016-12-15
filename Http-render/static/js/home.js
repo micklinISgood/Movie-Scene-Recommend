@@ -73,7 +73,9 @@ function seeked(){
 }
 function show(){
         last_m.push(myVideo.currentTime);
-        if(getCookie("uid")=="" && last_m.length ==4){
+        console.log(last_m.length);
+        console.log(getCookie("uid"));
+        if(getCookie("uid")=="" && last_m.length ==10){
             var person = prompt("Please enter your email to keep watching video", "xxx@gmail.com");
 
             if (person != null) {
