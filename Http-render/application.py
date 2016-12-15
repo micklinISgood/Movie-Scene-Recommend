@@ -1,5 +1,5 @@
 from flask import Flask,request, render_template, g, redirect, Response,jsonify
-import os,csv
+import os,csv, random
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 import traceback
@@ -10,41 +10,42 @@ app = Flask(__name__, template_folder=tmpl_dir, static_folder=public_dir,static_
 
 #connect to database
 
-host = "104.196.175.120" 
-password ="rezq8"  
-user =  "cl3469"
-DATABASEURI = "postgresql://%s:%s@%s/postgres" % (user, password, host)
+# host = "104.196.175.120" 
+# password =
+# user =  
+# DATABASEURI = "postgresql://%s:%s@%s/postgres" % (user, password, host)
+movie_meta = {}
 
-engine = create_engine(DATABASEURI)
+# engine = create_engine(DATABASEURI)
 # import logging
 
 # logging.basicConfig()
 # logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
-@app.before_request
-def before_request():
-  """
-  This function is run at the beginning of every web request
-  (every time you enter an address in the web browser).
-  We use it to setup a database connection that can be used throughout the request
-  The variable g is globally accessible
-  """
-  try:
-        g.conn = engine.connect()
-  except:
-        print "uh oh, problem connecting to database"
-        traceback.print_exc()
-        g.conn = None
+# @app.before_request
+# def before_request():
+#   """
+#   This function is run at the beginning of every web request
+#   (every time you enter an address in the web browser).
+#   We use it to setup a database connection that can be used throughout the request
+#   The variable g is globally accessible
+#   """
+#   try:
+#         g.conn = engine.connect()
+#   except:
+#         print "uh oh, problem connecting to database"
+#         traceback.print_exc()
+#         g.conn = None
 
-@app.teardown_request
-def teardown_request(exception):
-  """
-  At the end of the web request, this makes sure to close the database connection.
-  If you don't the database could run out of memory!
-  """
-  try:
-    g.conn.close()
-  except Exception:
-    pass
+# @app.teardown_request
+# def teardown_request(exception):
+#   """
+#   At the end of the web request, this makes sure to close the database connection.
+#   If you don't the database could run out of memory!
+#   """
+#   try:
+#     g.conn.close()
+#   except Exception:
+#     pass
 
 @app.route('/insertM')
 def insertM():
@@ -84,45 +85,50 @@ def insertM():
 def getmid():
   uid = request.args.get('uid', 0, type=int)
   mid = request.args.get('mid', "", type=str)
-  print uid, mid
+  # print uid, mid
   data={}
-  try:
-    cursor = g.conn.execute("select * from movie where MID=%s",mid)
-    result = cursor.fetchone()
-    if result != None:
-      data["mid"]=result["mid"]
-      data["name"]=result["name"]
-      data["mlink"]=result["mlink"]
-      data["mimg"]=result["mimg"]
-  except Exception as e:
-          print e
+
+  data["mid"]=mid
+  data["name"]=movie_meta[mid][2]
+  data["mlink"]=movie_meta[mid][5]
+  data["mimg"]=movie_meta[mid][1]
 
 
-  try:
-    ret =[]
-    cursor = g.conn.execute("select movie.*,movie_tag.tid from movie_tag, movie where movie.mid=movie_tag.mid and movie.mid <> %s and movie_tag.tid in (select tid from movie_tag as t where t.mid=%s)",mid,mid)
-    for result in cursor:
+  ret =[]
+  for k in random.sample(movie_meta.keys(), 5):
+      if k == mid: continue
       in_data={}
-      in_data["mid"]=result["mid"]
-      in_data["name"]=result["name"]
-      in_data["mlink"]=result["mlink"]
-      in_data["mimg"]=result["mimg"]
-      tid = result["tid"]
+      in_data["mid"]=k 
+      in_data["name"]=movie_meta[k][2]
+      in_data["mlink"]=movie_meta[k][5]
+      in_data["mimg"]=movie_meta[k][1]
       ret.append(in_data)
-  except Exception as e:
-          print e
+
+  # try:
+  #   ret =[]
+  #   cursor = g.conn.execute("select movie.*,movie_tag.tid from movie_tag, movie where movie.mid=movie_tag.mid and movie.mid <> %s and movie_tag.tid in (select tid from movie_tag as t where t.mid=%s)",mid,mid)
+  #   for result in cursor:
+  #     in_data={}
+  #     in_data["mid"]=result["mid"]
+  #     in_data["name"]=result["name"]
+  #     in_data["mlink"]=result["mlink"]
+  #     in_data["mimg"]=result["mimg"]
+  #     tid = result["tid"]
+  #     ret.append(in_data)
+  # except Exception as e:
+  #         print e
   
-  try:
-    cursor = g.conn.execute("select movie.* from movie_tag, movie where movie.mid=movie_tag.mid and movie_tag.tid <> %s order by random() limit 2",tid)
-    for result in cursor:
-      in_data={}
-      in_data["mid"]=result["mid"]
-      in_data["name"]=result["name"]
-      in_data["mlink"]=result["mlink"]
-      in_data["mimg"]=result["mimg"]
-      ret.append(in_data)
-  except Exception as e:
-          print e
+  # try:
+  #   cursor = g.conn.execute("select movie.* from movie_tag, movie where movie.mid=movie_tag.mid and movie_tag.tid <> %s order by random() limit 2",tid)
+  #   for result in cursor:
+  #     in_data={}
+  #     in_data["mid"]=result["mid"]
+  #     in_data["name"]=result["name"]
+  #     in_data["mlink"]=result["mlink"]
+  #     in_data["mimg"]=result["mimg"]
+  #     ret.append(in_data)
+  # except Exception as e:
+  #         print e
   
   data["rec_list"] = ret
 
@@ -144,8 +150,8 @@ def signin():
 def home():
     data={}
     try:
-      cursor = g.conn.execute("select mid from movie order by random() limit 1 ")
-      data["mid"] = cursor.fetchone()[0]
+      # cursor = g.conn.execute("select mid from movie order by random() limit 1 ")
+      data["mid"] = random.choice(movie_meta.keys())
     except Exception as e:
           print e   
 
@@ -224,6 +230,12 @@ if __name__ == '__main__':
         HOST, PORT = host, port
         print "running on %s:%d" % (HOST, PORT)
         app.run(host=HOST, port=PORT, debug=debug, threaded=threaded)
-
-
+   
+    with open(public_dir+'/joined.csv', 'rb') as csvfile:
+      spamreader = csv.reader(csvfile, delimiter=',')
+      for row in spamreader:
+          mid = row.pop(-1)
+          movie_meta[mid]=row 
+          
+    # print movie_meta
     run()
