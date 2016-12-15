@@ -32,7 +32,7 @@ You should get result
 72,Kicking and Screaming (1995),Comedy|Drama
 73,"Misérables, Les (1995)",Drama|War
 ```
-Crtl+F to find your movie name
+Ctrl+F to find your movie name
 
 ##Copy the exact name without quote to our spreadsheet, Ice Age: A Mammoth Christmas (2011), for example.
 
