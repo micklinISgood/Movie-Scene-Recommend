@@ -1,5 +1,6 @@
 from flask import Flask,request, render_template, g, redirect, Response,jsonify
 import os,csv, random
+from collections import *
 from sqlalchemy import *
 from sqlalchemy.pool import NullPool
 import traceback
@@ -15,6 +16,8 @@ app = Flask(__name__, template_folder=tmpl_dir, static_folder=public_dir,static_
 # user =  
 # DATABASEURI = "postgresql://%s:%s@%s/postgres" % (user, password, host)
 movie_meta = {}
+genre_hash = defaultdict(lambda: [])
+# defaultdict(lambda: [None, None, []])
 
 # engine = create_engine(DATABASEURI)
 # import logging
@@ -87,27 +90,41 @@ def getmid():
   mid = request.args.get('mid', "", type=str)
   # print uid, mid
   data={}
+  try: 
+    data["mid"]=mid
+    data["name"]=movie_meta[mid][2]
+    data["mlink"]=movie_meta[mid][5]
+    data["mimg"]=movie_meta[mid][1]
 
-  data["mid"]=mid
-  data["name"]=movie_meta[mid][2]
-  data["mlink"]=movie_meta[mid][5]
-  data["mimg"]=movie_meta[mid][1]
+
+    ret =[]
+    #skip now playing
+    total_id = movie_meta.keys()
+    total_id.remove(mid)
+    #call by value
+    same_genre_ids =list(genre_hash[movie_meta[mid][0]])
+    same_genre_ids.remove(mid) 
+    keep_genre_id = random.choice(same_genre_ids)
+    total_id.remove(keep_genre_id)
+
+    in_data={}
+    in_data["mid"]=keep_genre_id
+    in_data["name"]=movie_meta[keep_genre_id][2]
+    in_data["mlink"]=movie_meta[keep_genre_id][5]
+    in_data["mimg"]=movie_meta[keep_genre_id][1]
+    ret.append(in_data)
 
 
-  ret =[]
-  #skip now playing
-  total_id = movie_meta.keys()
-  total_id.remove(mid)
-
-  # sample not playing
-  for k in random.sample(total_id, 5):
+    # sample not playing
+    for k in random.sample(total_id, 4):
       in_data={}
       in_data["mid"]=k 
       in_data["name"]=movie_meta[k][2]
       in_data["mlink"]=movie_meta[k][5]
       in_data["mimg"]=movie_meta[k][1]
       ret.append(in_data)
-
+  except Exception as e:
+         print e
   # try:
   #   ret =[]
   #   cursor = g.conn.execute("select movie.*,movie_tag.tid from movie_tag, movie where movie.mid=movie_tag.mid and movie.mid <> %s and movie_tag.tid in (select tid from movie_tag as t where t.mid=%s)",mid,mid)
@@ -239,7 +256,8 @@ if __name__ == '__main__':
       spamreader = csv.reader(csvfile, delimiter=',')
       for row in spamreader:
           mid = row.pop(-1)
-          movie_meta[mid]=row 
+          movie_meta[mid]=row
+          genre_hash[row[0]].append(mid) 
           
     # print movie_meta
     run()
