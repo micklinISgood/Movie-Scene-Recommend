@@ -48,7 +48,7 @@ var last_m=[],start;
 var myVideo = document.getElementById("video1");
 myVideo.addEventListener('loadedmetadata', function() {
     var text = document.getElementById("t1");
-    text.innerHTML = myVideo.duration;
+    text.innerHTML = Math.ceil(myVideo.duration);
 });
 myVideo.ontimeupdate = show;
 myVideo.onplay = play;
@@ -85,17 +85,17 @@ function makeNormal() {
 var myVideo2 = document.getElementById("video2");
 myVideo2.addEventListener('loadedmetadata', function() {
     var text = document.getElementById("t2");
-    text.innerHTML = myVideo2.duration;
+    text.innerHTML = Math.ceil(myVideo2.duration);
 });
 var myVideo3 = document.getElementById("video3");
 myVideo3.addEventListener('loadedmetadata', function() {
     var text = document.getElementById("t3");
-    text.innerHTML = myVideo3.duration;
+    text.innerHTML = Math.ceil(myVideo3.duration);
 });
 var myVideo4 = document.getElementById("video4");
 myVideo4.addEventListener('loadedmetadata', function() {
     var text = document.getElementById("t4");
-    text.innerHTML = myVideo4.duration;
+    text.innerHTML = Math.ceil(myVideo4.duration);
 });
 </script>
 </body>
