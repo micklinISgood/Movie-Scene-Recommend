@@ -4,7 +4,7 @@
 python filter.py 
 ```
 ```sql
-Matched movies: 30
+Matched movies: 30, csv file path: /Users/micklin/Documents/Movie-Scene-Recommend/movie_data/joined.csv
 Unmatched movies:
 Finding Dory
 How he fell in love
