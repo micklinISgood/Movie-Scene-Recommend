@@ -29,14 +29,14 @@ for row in mreader:
 
 	# print row
 ret = sorted(ret.items(),key= lambda x:x[0])
-collect = sorted(collect)
+# collect = sorted(collect)
 
+print "Matched movies: %d"%(len(ret))
+print "Unmatched movies:"
+for k,v in collect.items():
+	if len(v) != 7:
+		print k
 
-for k in collect:
-	print k
-for k in ret:
-	print k
-print len(ret)
 
 movies.close()	
 header.close()
