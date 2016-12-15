@@ -12,22 +12,15 @@ def parseRating(line):
     Parses a rating record in MovieLens format userId::movieId::rating::timestamp .
     """
     fields = line.strip().split(",")
-    try:
-        return long(fields[3]) % 10, (int(fields[0]), int(fields[1]), float(fields[2]))
-    except:
-        pass
+    return long(fields[3]) % 10, (int(fields[0]), int(fields[1]), float(fields[2]))
 
 def parseMovie(line):
     """
     Parses a movie record in MovieLens format movieId::movieTitle .
     """
     fields = line.strip().split(",")
-    try:
-
-        return int(fields[0]), fields[1]
-
-    except:
-        pass
+    print fields
+    return int(fields[0]), fields[1]
 
 def loadRatings(ratingsFile):
     """
@@ -75,13 +68,13 @@ if __name__ == "__main__":
 
     
 
-    rating_path = "s3://"
-    movie_path = "s3://"
+    rating_path = "s3://aws-logs-570921548589-us-west-2/movies/ratings.csv"
+    movie_path="s3://aws-logs-570921548589-us-west-2/movies/movies.csv"
     # ratings is an RDD of (last digit of timestamp, (userId, movieId, rating))
-    ratings = sc.textFile(rating_path).map(parseRating)
+    ratings = sc.textFile(rating_path).zipWithIndex().filter(lambda (row,index): index > 0).keys().map(parseRating).collect()
 
     # movies is an RDD of (movieId, movieTitle)
-    movies = dict(sc.textFile(movie_path).map(parseMovie).collect())
+    movies = dict(sc.textFile(movie_path).zipWithIndex().filter(lambda (row,index): index > 0).keys().map(parseMovie).collect())
 
     numRatings = ratings.count()
     numUsers = ratings.values().map(lambda r: r[0]).distinct().count()
