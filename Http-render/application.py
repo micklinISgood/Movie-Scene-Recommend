@@ -54,31 +54,31 @@ genre_hash = defaultdict(lambda: [])
 def insertM():
 
   # print to_id,from_id
-  with open(public_dir+'/vc.csv', 'rb') as csvfile:
-    spamreader = csv.reader(csvfile, delimiter=',')
+  # with open(public_dir+'/vc.csv', 'rb') as csvfile:
+  #   spamreader = csv.reader(csvfile, delimiter=',')
 
-    cat ={}
-    for row in spamreader:
-      ct=0
-      print row
-      for e in row:
-        if len(e)>0: ct+=1
-      if ct == len(row):
-        try:
-           g.conn.execute("INSERT into movie values (%s,%s,%s,%s)",row[0],row[1],row[2],row[3])
-        except Exception as e:
-          print e
-        try:
-          try:
-            cursor =  g.conn.execute("select tid from tags where TNAME=%s;",row[4])
-            tid = cursor.fetchone()[0]
-          except:
-            cursor = g.conn.execute("INSERT into tags(TNAME) values (%s); select max(tid) from tags;",row[4])
-            tid = cursor.fetchone()[0]
+  #   cat ={}
+  #   for row in spamreader:
+  #     ct=0
+  #     print row
+  #     for e in row:
+  #       if len(e)>0: ct+=1
+  #     if ct == len(row):
+  #       try:
+  #          g.conn.execute("INSERT into movie values (%s,%s,%s,%s)",row[0],row[1],row[2],row[3])
+  #       except Exception as e:
+  #         print e
+  #       try:
+  #         try:
+  #           cursor =  g.conn.execute("select tid from tags where TNAME=%s;",row[4])
+  #           tid = cursor.fetchone()[0]
+  #         except:
+  #           cursor = g.conn.execute("INSERT into tags(TNAME) values (%s); select max(tid) from tags;",row[4])
+  #           tid = cursor.fetchone()[0]
 
-          g.conn.execute("INSERT into movie_tag(mid,tid) values(%s,%s);",row[0],tid)
-        except Exception as e:
-          print e
+  #         g.conn.execute("INSERT into movie_tag(mid,tid) values(%s,%s);",row[0],tid)
+  #       except Exception as e:
+  #         print e
   # g.conn.execute("INSERT into msg values (%s,%s,%s,%s)",int(time.time()),from_id,to_id,text)
 
   return jsonify(data="ok")
