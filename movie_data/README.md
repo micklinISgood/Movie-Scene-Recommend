@@ -1,5 +1,5 @@
 
-###Good progress, 24 matches now.
+###Good progress, 30 matches now.
 ```java
 python filter.py 
 ```
@@ -37,17 +37,20 @@ python filter.py
 ####Find the correct name from the movies.csv
 
 ```java
-python verifier.py "ice age"
+sublime movies.csv
 ```
 You should get result
 ```
-['5218', 'Ice Age (2002)', 'Adventure|Animation|Children|Comedy']
-['44022', 'Ice Age 2: The Meltdown (2006)', 'Adventure|Animation|Children|Comedy']
-['69644', 'Ice Age: Dawn of the Dinosaurs (2009)', 'Action|Adventure|Animation|Children|Comedy|Romance']
-['95543', 'Ice Age 4: Continental Drift (2012)', 'Adventure|Animation|Comedy']
-['105030', 'Ice Age Columbus: Who Were the First Americans? (2005)', 'Documentary']
-['117922', 'Ice Age: A Mammoth Christmas (2011)', 'Adventure|Animation|Children']
+67,Two Bits (1995),Drama
+68,French Twist (Gazon maudit) (1995),Comedy|Romance
+69,Friday (1995),Comedy
+70,From Dusk Till Dawn (1996),Action|Comedy|Horror|Thriller
+71,Fair Game (1995),Action
+72,Kicking and Screaming (1995),Comedy|Drama
+73,"Misérables, Les (1995)",Drama|War
 ```
+Crtl+F to find your movie name
+
 ##Copy the exact name without quote to our spreadsheet, Ice Age: A Mammoth Christmas (2011), for example.
 
 If you can not find the movie in movies.csv, find a movie from it and upload a new video to S3 please.
