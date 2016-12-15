@@ -57,7 +57,7 @@ if __name__ == "__main__":
     # set up environment
     conf = SparkConf() \
       .setAppName("MovieLensALS") \
-      .set("spark.executor.memory", "2g")
+      .set("spark.executor.memory", "10g")
     sc = SparkContext(conf=conf)
 
     # load personal ratings
@@ -71,10 +71,16 @@ if __name__ == "__main__":
     rating_path = "s3://aws-logs-570921548589-us-west-2/movies/ratings.csv"
     movie_path="s3://aws-logs-570921548589-us-west-2/movies/movies.csv"
     # ratings is an RDD of (last digit of timestamp, (userId, movieId, rating))
-    ratings = sc.textFile(rating_path).zipWithIndex().filter(lambda (row,index): index > 0).keys().map(parseRating).collect()
+    ratings = sc.textFile(rating_path).zipWithIndex().filter(lambda (row,index): index > 0).keys().map(parseRating)
 
     # movies is an RDD of (movieId, movieTitle)
     movies = dict(sc.textFile(movie_path).zipWithIndex().filter(lambda (row,index): index > 0).keys().map(parseMovie).collect())
+    
+    
+    #head = ratings.take(10)
+    #print head
+    #head = movies.take(10)
+    #print head
 
     numRatings = ratings.count()
     numUsers = ratings.values().map(lambda r: r[0]).distinct().count()
