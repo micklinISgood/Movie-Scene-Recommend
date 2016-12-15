@@ -12,14 +12,22 @@ def parseRating(line):
     Parses a rating record in MovieLens format userId::movieId::rating::timestamp .
     """
     fields = line.strip().split(",")
-    return long(fields[3]) % 10, (int(fields[0]), int(fields[1]), float(fields[2]))
+    try:
+        return long(fields[3]) % 10, (int(fields[0]), int(fields[1]), float(fields[2]))
+    except:
+        pass
 
 def parseMovie(line):
     """
     Parses a movie record in MovieLens format movieId::movieTitle .
     """
     fields = line.strip().split(",")
-    return int(fields[0]), fields[1]
+    try:
+
+        return int(fields[0]), fields[1]
+
+    except:
+        pass
 
 def loadRatings(ratingsFile):
     """
