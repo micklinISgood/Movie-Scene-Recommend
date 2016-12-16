@@ -16,7 +16,11 @@ if len(sys.argv) !=2:
 genre_hash = defaultdict(lambda: [])
 
 ret ={}
+first = True
 for row in mreader:
+	if first :
+		first = not first
+		continue
 	for x in row[2].split("|"):
 			genre_hash[x].append(row[0])
 	if sys.argv[1].lower() in row[1].lower():

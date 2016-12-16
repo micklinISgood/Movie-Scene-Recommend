@@ -1,7 +1,17 @@
-var socket = io.connect('http://' + document.domain + ':' + 6888);
-   socket.on('connect', function() {
+var socket = io.connect('http://' + document.domain + ':' + 6888, {'sync disconnect on unload': true });
+  
+socket.on('connect', function() {
    		// console.log("open");
         socket.emit('init', {data: 'I\'m connected!'});
+
+  		// socket.on('disconnect', function () {
+    // 		io.sockets.emit('user disconnected');
+  		// });
+   });
+
+socket.on('message', function(message) {
+   		 console.log(message);
+
    });
 
 logoutbtn = document.getElementById("logout");
