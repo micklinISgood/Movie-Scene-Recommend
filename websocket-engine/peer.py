@@ -14,7 +14,7 @@ def on_reconnect():
 def on_aaa_response(*args):
     print('on_aaa_response', args)
 
-socketIO = SocketIO('localhost', 6888)
+socketIO = SocketIO('http://54.221.40.5', 6888)
 socketIO.on('connect', on_connect)
 socketIO.on('disconnect', on_disconnect)
 socketIO.on('reconnect', on_reconnect)
@@ -22,7 +22,7 @@ socketIO.on('reconnect', on_reconnect)
 while 1:
 
 	data ={}
-	data["uid"]="cl3469@gmail.com"
+	data["uid"]="lol"
 	data["rec_list"] = ["haha","hello"]
 	socketIO.emit('message',json.dumps(data))
-	time.sleep(20)
+	time.sleep(2)
