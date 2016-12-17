@@ -22,8 +22,9 @@ socketIO.on('reconnect', on_reconnect)
 while 1:
 
 	data ={}
-	data["uid"]="lol"
-	data["rec_list"] = ["haha","hello"]
+	data["uid"]="cl3469@gmail.com"
+	data["rec_list"] = [("Quadrille (1938)","Comedy|Romance"),("Tall Man, The (2012)","Crime|Drama|Mystery]")]
+	print json.dumps(data)
 	socketIO.emit('message',json.dumps(data))
 
 	time.sleep(2)
