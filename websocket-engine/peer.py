@@ -14,7 +14,7 @@ def on_reconnect():
 def on_aaa_response(*args):
     print('on_aaa_response', args)
 
-socketIO = SocketIO('http://54.221.40.5', 6888)
+socketIO = SocketIO('localhost', 6888)
 socketIO.on('connect', on_connect)
 socketIO.on('disconnect', on_disconnect)
 socketIO.on('reconnect', on_reconnect)
@@ -25,7 +25,7 @@ while 1:
 	data["uid"]="cl3469@gmail.com"
 	data["rec_list"] = [("Quadrille (1938)","Comedy|Romance"),("Tall Man, The (2012)","Crime|Drama|Mystery]")]
 	print json.dumps(data)
-	socketIO.emit('message',json.dumps(data))
+	socketIO.emit('recommendUser',json.dumps(data))
 
 	time.sleep(2)
 

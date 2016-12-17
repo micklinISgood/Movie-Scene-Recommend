@@ -1,16 +1,17 @@
-var socket = io.connect('http://' + document.domain + ':' + 6888, {'sync disconnect on unload': true });
+
+//document.domain, '54.221.40.5'
+var socket = io.connect('http://' + document.domain + ':' + 6888);
   
 socket.on('connect', function() {
-   		// console.log("open");
-        socket.emit('init', {data: 'I\'m connected!'});
 
-  		// socket.on('disconnect', function () {
-    // 		io.sockets.emit('user disconnected');
-  		// });
    });
 
 socket.on('message', function(message) {
-   		 console.log(message);
+   		 // console.log(message);
+   		 var action = JSON.parse(message);
+    	 // alert(action["action"]);
+    	 if(action["action"] == "rec") console.log(action["rec_list"]);
+   		 // alert(message);
 
    });
 

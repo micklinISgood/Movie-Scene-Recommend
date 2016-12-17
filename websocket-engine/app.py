@@ -104,9 +104,9 @@ def rec_list(json_data):
 					message=json.dumps(json_data)
 	)
 
-@socketio.on('message')
+@socketio.on('recommendUser')
 def handle_message(message):
-    print('received message: ' + message)
+    # print('received message: ' + message)
     data = json.loads(message)
     print data
     sendRecommendation(data["uid"], data["rec_list"])
@@ -122,6 +122,26 @@ def sendRecommendation(uid, rec_list):
         except Exception as e:
             cleanUserByUid(uid)
             print e 
+
+@socketio.on('recommendUserScene')
+def handle_message(message):
+    # print('received message: ' + message)
+    data = json.loads(message)
+    print data
+    sendRecommendation(data["uid"], data["rec_list"])
+
+
+def sendRecommendation(uid, rec_list):
+    if uid in online:
+        data = {}
+        data["action"] = "recScene"
+        data["rec_list"] = rec_list
+        try:
+            emit('message',json.dumps(data),room=online[uid])
+        except Exception as e:
+            cleanUserByUid(uid)
+            print e
+
 
 if __name__ == '__main__':
 
