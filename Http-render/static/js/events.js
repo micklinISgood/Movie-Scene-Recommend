@@ -1,21 +1,89 @@
-var socket = io.connect('http://' + document.domain + ':' + 6888, {'sync disconnect on unload': true });
+
+//document.domain, '54.221.40.5'
+var socket = io.connect('http://' + document.domain + ':' + 6888);
   
 socket.on('connect', function() {
-   		// console.log("open");
-        socket.emit('init', {data: 'I\'m connected!'});
 
-  		// socket.on('disconnect', function () {
-    // 		io.sockets.emit('user disconnected');
-  		// });
    });
 
 socket.on('message', function(message) {
    		 console.log(message);
+   		 var action = JSON.parse(message);
+    	 // alert(action["action"]);
+    	 if(action["action"] == "rec") printRecList(action["rec_list"]);
+    	 if(action["action"] == "recScene") printSceneRecList(action["rec_list"]);
+   		 // alert(message);
 
    });
 
 logoutbtn = document.getElementById("logout");
 logoutbtn.onclick = nullCookie;
+
+
+function printRecList(list){
+	console.log(list);
+	table = document.getElementById("recommend");
+	table.innerHTML = "";
+
+	t =document.createElement('table');
+	var row1 = t.insertRow(0);
+	var row2 = t.insertRow(1);
+	
+	for(var i in list){
+		
+
+		var cell1 = row1.insertCell(-1);
+		var cell2 = row2.insertCell(-1);
+		cell1.style = "color: #e6ffff;"
+		cell1.innerHTML = list[i][0];
+		var cell3 = row1.insertCell(-1);
+		cell3.innerHTML = " ";
+
+		cell2 = row2.insertCell(-1);
+		cell2.innerHTML = list[i][1];
+		cell2.style = "color: #e6ffff;"
+	
+
+	}
+	p = document.createElement('p');
+	p.style = "color: #e6ffff;"
+	p.innerHTML = "ALS Recommendation List:";
+	p.appendChild(t)
+	table.appendChild(p);
+
+
+}
+function printSceneRecList(list){
+	table = document.getElementById("recommendScene");
+	table.innerHTML = "";
+	table.innerHTML = "";
+
+	t =document.createElement('table');
+	var row1 = t.insertRow(0);
+	var row2 = t.insertRow(1);
+	
+	for(var i in list){
+		
+
+		var cell1 = row1.insertCell(-1);
+		var cell2 = row2.insertCell(-1);
+		cell1.style = "color: #e6ffff;"
+		cell1.innerHTML = list[i][0];
+		var cell3 = row1.insertCell(-1);
+		cell3.innerHTML = " ";
+
+		cell2 = row2.insertCell(-1);
+		cell2.innerHTML = list[i][1];
+		cell2.style = "color: #e6ffff;"
+
+	}
+	p = document.createElement('p');
+	p.style = "color: #e6ffff;"
+	p.innerHTML = "Scene Recommendation List:";
+	p.appendChild(t)
+	table.appendChild(p);
+}
+
 
 
 function nullCookie () {
