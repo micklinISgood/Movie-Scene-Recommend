@@ -197,19 +197,8 @@ def getmid():
 
   return jsonify(data=data)
 
+
 @app.route('/')
-def welcome():
-    return render_template('welcome.html')
-
-@app.route('/signup')
-def signup():
-	return render_template('sign-up.html')
-
-@app.route('/signin')
-def signin():
-	return render_template('sign-in.html')
-
-@app.route('/home')
 def home():
     data={}
     try:
@@ -221,54 +210,7 @@ def home():
     # print data
     return render_template('home.html',key=data)
 
-##add a new user
-@app.route('/adduser', methods=['POST'])
-def adduser():
-    try:
-        PSW = str(request.form['PSW'])
-        UName = str(request.form['UName'])
-        EMAIL = str(request.form['EMAIL'])
-        print PSW, UName,EMAIL
-        profiles = g.conn.execute("Select UID from users where email=%s and psw=%s",EMAIL,PSW)
-        if profiles:
-            print profiles
-            return render_template('sign-up.html', msg='User already existed!')
-        else:
-            g.conn.execute("INSERT INTO users(PSW, UName,EMAIL) VALUES (%s, %s, %s);",PSW, UName,EMAIL)
-            profiles = g.conn.execute("Select UID from users where email=%s and psw=%s",EMAIL,PSW)
-            for profile in profiles:
-                UID=str(profile)[1]
-            print UID
-            redirect_to_index = render_template('/home.html',data="ok")
-            response = app.make_response(redirect_to_index )
-            response.set_cookie('uid',value=UID)
-            response.set_cookie('name',value=UName)
-            return response
-    except:
-        print traceback.print_exc()
-        return 'Oops something goes wrong!'
 
-##usersignin
-@app.route('/login', methods=['POST'])
-def login():
-    try:
-        PSW = str(request.form['PSW'])
-        EMAIL = str(request.form['EMAIL'])
-        print PSW, EMAIL
-        profiles = g.conn.execute("Select UID from users where email=%s and psw=%s",EMAIL,PSW)
-        UID=''
-        for profile in profiles:
-            UID=str(profile)[1]
-        if UID:
-            redirect_to_index = render_template('/home.html',data="ok")
-            response = app.make_response(redirect_to_index )
-            response.set_cookie('uid',value=UID)
-            return response
-        else:
-            return render_template('sign-up.html', msg='User does not exist!')
-    except:
-        print traceback.print_exc()
-        return 'Oops something goes wrong!'
 
 if __name__ == '__main__':
     import click

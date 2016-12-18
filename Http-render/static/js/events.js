@@ -32,17 +32,18 @@ function printRecList(list){
 	for(var i in list){
 		
 
-		var cell1 = row1.insertCell(-1);
-		var cell2 = row2.insertCell(-1);
-		cell1.style = "color: #e6ffff;"
-		cell1.innerHTML = list[i][0];
-		var cell3 = row1.insertCell(-1);
-		cell3.innerHTML = " ";
-
-		cell2 = row2.insertCell(-1);
-		cell2.innerHTML = list[i][1];
-		cell2.style = "color: #e6ffff;"
 	
+		var cell1 = row1.insertCell(-1);
+
+		cell1.style = "color: #e6ffff;"
+		cell1.innerHTML = list[i][0] + '<br>' + list[i][1]; ;
+		
+		var cell2 = row1.insertCell(-1);
+		cell2.style = "color: #e6ffff;"
+		cell2.innerHTML = "    ";
+		// cell2 = row2.insertCell(-1);
+		// cell2.innerHTML = list[i][1];
+		// cell2.style = "color: #e6ffff;"	
 
 	}
 	p = document.createElement('p');
@@ -56,7 +57,6 @@ function printRecList(list){
 function printSceneRecList(list){
 	table = document.getElementById("recommendScene");
 	table.innerHTML = "";
-	table.innerHTML = "";
 
 	t =document.createElement('table');
 	var row1 = t.insertRow(0);
@@ -66,15 +66,16 @@ function printSceneRecList(list){
 		
 
 		var cell1 = row1.insertCell(-1);
-		var cell2 = row2.insertCell(-1);
 		cell1.style = "color: #e6ffff;"
-		cell1.innerHTML = list[i][0];
-		var cell3 = row1.insertCell(-1);
-		cell3.innerHTML = " ";
-
-		cell2 = row2.insertCell(-1);
-		cell2.innerHTML = list[i][1];
+		cell1.innerHTML = list[i][0] + '<br>' + list[i][1]; ;
+		
+		var cell2 = row1.insertCell(-1);
 		cell2.style = "color: #e6ffff;"
+		cell2.innerHTML = "    ";
+
+		// cell2 = row2.insertCell(-1);
+		// cell2.innerHTML = list[i][1];
+		// cell2.style = "color: #e6ffff;"
 
 	}
 	p = document.createElement('p');
