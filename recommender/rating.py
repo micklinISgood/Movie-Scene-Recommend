@@ -1,3 +1,10 @@
+'''
+EMR Add Step:
+s3://us-east-1.elasticmapreduce/libs/script-runner/script-runner.jar
+/usr/lib/spark/bin/spark-submit
+/home/hadoop/Movie-Scene-Recommend/recommender/rating.py
+/home/hadoop/Movie-Scene-Recommend/recommender/engine.py
+'''
 import json, csv, thread
 from collections import *
 import boto.sqs,boto.sns,json, inspect, threading, logging, time, requests
@@ -5,8 +12,8 @@ from engine import RecommendationEngine
 from pyspark import SparkContext, SparkConf
 from socketIO_client import SocketIO
 
-conn = boto.sqs.connect_to_region("us-east-1",profile_name='movie')
-queue=conn.get_queue('watch_interval')
+conn = boto.sqs.connect_to_region("us-east-1")
+queue=conn.get_queue('Watch_interval')
 
 def init_spark_context():
     # load spark context
@@ -53,11 +60,13 @@ def worker():
 		body = json.loads(message.get_body())
 		msg =json.loads(body["Message"])
 		if msg["event"] == "watch_interval":
+                        if msg["mid"] not in movielen: continue 
 			print msg["uid"], msg["watch_interval"],msg["mid"]
 			intterval = msg["watch_interval"].split(":")
 			diff = float(intterval[1])-float(intterval[0])
 			rate_map[msg["uid"]][msg["mid"]]+= round(diff*3/movielen[msg["mid"]],2) 
 		if msg["event"] == "click_video":
+                        if msg["mid"] not in movielen: continue
 			print msg["uid"],msg["mid"] 
 			rate_map[msg["uid"]][msg["mid"]]+=1
 		try:
