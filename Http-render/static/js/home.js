@@ -13,45 +13,6 @@ function getMainVideoIconByClassName(iconClassName){
     return document.getElementById("html-main-video-section").getElementsByClassName(iconClassName)[0];
 }
 
-var likeMainVideoIcon = getMainVideoIconByClassName('fa-heart-o');
-var dislikeMainVideoIcon = getMainVideoIconByClassName('fa-heart');
-var thumbUpIcon = getMainVideoIconByClassName('fa-thumbs-o-up');
-var unThumbUpIcon= getMainVideoIconByClassName('fa-thumbs-up');
-var thumbDownIcon = getMainVideoIconByClassName('fa-thumbs-o-down');
-var unThumbDownIcon= getMainVideoIconByClassName('fa-thumbs-down');
-
-// toggle movie like
-
-
-var addToggleLikeIconListener = function(icon){
-
-    // console.log("icon", icon)
-	icon.addEventListener("click", function(){
-	likeMainVideo = !likeMainVideo;
-        // console.log(likeMainVideo);
-	});
-}
-
-var addToggleThumbUpIconListener = function(icon){
-    icon.addEventListener("click", function(){
-    thumbUp = !thumbUp;
-        // console.log(thumbUp);
-    });
-}
-
-var addToggleThumbDownIconListener = function(icon){
-    icon.addEventListener("click", function(){
-    thumbDown = !thumbDown;
-        // console.log(thumbDown);
-    });
-}
-
-addToggleLikeIconListener(likeMainVideoIcon );
-addToggleLikeIconListener(dislikeMainVideoIcon);
-addToggleThumbUpIconListener(thumbUpIcon );
-addToggleThumbUpIconListener(unThumbUpIcon);
-addToggleThumbDownIconListener(thumbDownIcon );
-addToggleThumbDownIconListener(unThumbDownIcon);
 
 // send movie like to database
 

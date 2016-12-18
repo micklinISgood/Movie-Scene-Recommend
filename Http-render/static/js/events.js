@@ -7,16 +7,45 @@ socket.on('connect', function() {
    });
 
 socket.on('message', function(message) {
-   		 // console.log(message);
+   		 console.log(message);
    		 var action = JSON.parse(message);
     	 // alert(action["action"]);
-    	 if(action["action"] == "rec") console.log(action["rec_list"]);
+    	 if(action["action"] == "rec") printRecList(action["rec_list"]);
+    	 if(action["action"] == "recScene") console.log(action["rec_list"]);
    		 // alert(message);
 
    });
 
 logoutbtn = document.getElementById("logout");
 logoutbtn.onclick = nullCookie;
+
+
+function printRecList(list){
+	console.log(list);
+	table = document.getElementById("recommend");
+	table.innerHTML = "";
+
+	t =document.createElement('table');
+	var row1 = t.insertRow(0);
+	var row2 = t.insertRow(1);
+	
+	for(var i in list){
+		
+
+		var cell1 = row1.insertCell(-1);
+		var cell2 = row2.insertCell(-1);
+		cell1.innerHTML = list[i][0];
+		cell2.innerHTML = list[i][1];
+
+	}
+	table.appendChild(t);
+
+}
+function printSceneRecList(list){
+	table = document.getElementById("recommendScene");
+	table.innerHTML = "";
+}
+
 
 
 function nullCookie () {
