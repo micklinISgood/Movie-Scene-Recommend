@@ -59,12 +59,16 @@ def worker():
 
 		body = json.loads(message.get_body())
 		msg =json.loads(body["Message"])
+		
+		if msg["event"] not in ["watch_interval","click_video"]: continue 
+		
 		if msg["event"] == "watch_interval":
-                        if msg["mid"] not in movielen: continue 
+            if msg["mid"] not in movielen: continue 
 			print msg["uid"], msg["watch_interval"],msg["mid"]
 			intterval = msg["watch_interval"].split(":")
 			diff = float(intterval[1])-float(intterval[0])
 			rate_map[msg["uid"]][msg["mid"]]+= round(diff*3/movielen[msg["mid"]],2) 
+		
 		if msg["event"] == "click_video":
                         if msg["mid"] not in movielen: continue
 			print msg["uid"],msg["mid"] 
