@@ -124,14 +124,14 @@ def sendRecommendation(uid, rec_list):
             print e 
 
 @socketio.on('recommendUserScene')
-def handle_message(message):
+def handleScene_message(message):
     # print('received message: ' + message)
     data = json.loads(message)
     print data
-    sendRecommendation(data["uid"], data["rec_list"])
+    sendSceneRecommendation(data["uid"], data["rec_list"])
 
 
-def sendRecommendation(uid, rec_list):
+def sendSceneRecommendation(uid, rec_list):
     if uid in online:
         data = {}
         data["action"] = "recScene"
