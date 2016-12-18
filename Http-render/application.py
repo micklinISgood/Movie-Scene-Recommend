@@ -85,6 +85,7 @@ def insertM():
 
 
 @app.route('/getmid', methods=['GET'])
+@crossdomain(origin='*')
 def getmid():
   uid = request.args.get('uid', 0, type=int)
   mid = request.args.get('mid', "", type=str)
