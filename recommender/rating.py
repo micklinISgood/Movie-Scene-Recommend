@@ -3,6 +3,7 @@ from collections import *
 import boto.sqs,boto.sns,json, inspect, threading, logging, time, requests
 from engine import RecommendationEngine
 from pyspark import SparkContext, SparkConf
+from socketIO_client import SocketIO
 
 conn = boto.sqs.connect_to_region("us-east-1",profile_name='movie')
 queue=conn.get_queue('watch_interval')
@@ -16,17 +17,29 @@ def init_spark_context():
     return sc
 
 recommendation_engine = RecommendationEngine(init_spark_context())    
-# sns_conn = boto.sns.connect_to_region("us-west-2")
+socketIO = SocketIO('http://54.221.40.5:8111', 6888)
 
-# sqs = boto3.resource('sqs')
-# queue = sqs.get_queue_by_name(QueueName='watch_interval')
 def Recommend(uid):
+
 	intput_table =[]
 	for k,v in rate_map[uid].items():
-		intput_table.append((0,k,v))
-	rec_list = recommendation_engine.recommends(intput_table)
-	for row in rec_list:
-		print row
+		intput_table.append((0,int(k),v))
+	# print intput_table
+	if len(intput_table) > 2:
+		rec_list = recommendation_engine.recommends(intput_table)
+
+		# ret = [(t[0],t[2]) for t in rec_list]
+		print rec_list
+		ret = []
+		for row in rec_list:
+			content = row.split(",")
+			ret.append(( str(content[0][3:-1]),str(content[2][3:-1]) ))
+		data ={}
+		data["uid"]=uid
+		data["rec_list"] = ret 
+		print json.dumps(data)
+		socketIO.emit('recommendUser',json.dumps(data))
+
 
 
 

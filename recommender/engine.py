@@ -1,7 +1,7 @@
 import os
 from pyspark.mllib.recommendation import ALS
 
-import logging
+import logging, json
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -109,21 +109,23 @@ class RecommendationEngine:
         new_user_recommendations_rating_RDD = new_user_recommendations_RDD.map(lambda x: (x.product, x.rating))
         new_user_recommendations_rating_title_and_count_RDD = \
         new_user_recommendations_rating_RDD.join(self.movies_titles_RDD).join(self.movies_genres).join(self.movies_rating_counts_RDD)
-        print new_user_recommendations_rating_title_and_count_RDD.take(3)
+        # print new_user_recommendations_rating_title_and_count_RDD.take(3)
         new_user_recommendations_rating_title_and_count_RDD = \
         new_user_recommendations_rating_title_and_count_RDD.map(lambda r: (r[1][0][0][1], r[1][0][0][0], r[1][0][1], r[1][1]))
-        top_movies = new_user_recommendations_rating_title_and_count_RDD.filter(lambda r: r[2]>=25).takeOrdered(25, key=lambda x: -x[1])
+        top_movies = new_user_recommendations_rating_title_and_count_RDD.filter(lambda r: r[2]>=25).takeOrdered(5, key=lambda x: -x[1]).collect()
 
-        print ('TOP recommended movies (with more than 25 reviews):\n%s' %
-            '\n'.join(map(str, top_movies)))
-        return map(str, top_movies)
+        # print ('TOP recommended movies (with more than 25 reviews):\n%s' %
+            # '\n'.join(map(str, top_movies)))
+        # top_movies
+        return top_movies
 
 
     def recommends(self, myRatings):
 
         
         new_user_ID = 0
-        print new_user_ID
+        print  "in spark"
+        print myRatings
         myRatingsRDD = self.sc.parallelize(myRatings)
         # print myRatings
         self.ratings_RDD = self.ratings_init_RDD.union(myRatingsRDD)
@@ -136,13 +138,13 @@ class RecommendationEngine:
         new_user_recommendations_rating_RDD = new_user_recommendations_RDD.map(lambda x: (x.product, x.rating))
         new_user_recommendations_rating_title_and_count_RDD = \
         new_user_recommendations_rating_RDD.join(self.movies_titles_RDD).join(self.movies_genres).join(self.movies_rating_counts_RDD)
-        print new_user_recommendations_rating_title_and_count_RDD.take(3)
+        # print new_user_recommendations_rating_title_and_count_RDD.take(3)
         new_user_recommendations_rating_title_and_count_RDD = \
         new_user_recommendations_rating_title_and_count_RDD.map(lambda r: (r[1][0][0][1], r[1][0][0][0], r[1][0][1], r[1][1]))
-        top_movies = new_user_recommendations_rating_title_and_count_RDD.filter(lambda r: r[2]>=25).takeOrdered(25, key=lambda x: -x[1])
+        top_movies = new_user_recommendations_rating_title_and_count_RDD.filter(lambda r: r[2]>=25).takeOrdered(5, key=lambda x: -x[1])
 
-        print ('TOP recommended movies (with more than 25 reviews):\n%s' %
-            '\n'.join(map(str, top_movies)))
+        # print ('TOP recommended movies (with more than 25 reviews):\n%s' %
+            # '\n'.join(map(str, top_movies)))
         return map(str, top_movies)
     
     def get_top_ratings(self, user_id, movies_count):
@@ -177,10 +179,10 @@ class RecommendationEngine:
         # movies_file_path = os.path.join(dataset_path, 'movies.csv')
         movies_raw_RDD = self.sc.textFile('movies.csv')
         movies_raw_data_header = movies_raw_RDD.take(1)[0]
-        print movies_raw_RDD.take(1)
+        # print movies_raw_RDD.take(1)
         self.movies_RDD = movies_raw_RDD.filter(lambda line: line!=movies_raw_data_header)\
             .map(lambda line: line.split(",")).map(lambda tokens: (int(tokens[0]),tokens[1],tokens[2])).cache()
-        print self.movies_RDD.take(3)
+        # print self.movies_RDD.take(3)
         self.movies_titles_RDD = self.movies_RDD.map(lambda x: (int(x[0]),x[1]))
         self.movies_genres = self.movies_RDD.map(lambda x: (int(x[0]),x[2]))
         # Pre-calculate movies ratings counts
