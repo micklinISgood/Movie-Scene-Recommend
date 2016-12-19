@@ -36,11 +36,11 @@ function printRecList(list){
 		var cell1 = row1.insertCell(-1);
 
 		cell1.style = "color: #e6ffff;"
-		cell1.innerHTML = list[i][0] + '<br>' + list[i][1]; ;
+		cell1.innerHTML = list[i][0] + '<br>' + list[i][1];
 		
 		var cell2 = row1.insertCell(-1);
-		cell2.style = "color: #e6ffff;"
-		cell2.innerHTML = "    ";
+		cell2.style = "color: #000000;"
+		cell2.innerHTML = "_";
 		// cell2 = row2.insertCell(-1);
 		// cell2.innerHTML = list[i][1];
 		// cell2.style = "color: #e6ffff;"	
@@ -67,11 +67,11 @@ function printSceneRecList(list){
 
 		var cell1 = row1.insertCell(-1);
 		cell1.style = "color: #e6ffff;"
-		cell1.innerHTML = list[i][0] + '<br>' + list[i][1]; ;
+		cell1.innerHTML = list[i][0] + '<br>' + list[i][1];
 		
 		var cell2 = row1.insertCell(-1);
-		cell2.style = "color: #e6ffff;"
-		cell2.innerHTML = "    ";
+		cell2.style = "color:  #000000;"
+		cell2.innerHTML = "_";
 
 		// cell2 = row2.insertCell(-1);
 		// cell2.innerHTML = list[i][1];
