@@ -117,7 +117,13 @@ class RecommendationEngine:
         # print ('TOP recommended movies (with more than 25 reviews):\n%s' %
             # '\n'.join(map(str, top_movies)))
         # top_movies
-        return top_movies
+        # ret =[]
+        # for row in top_movies:
+        #     print row
+        #     print row[0],row[2]
+        #     ret.append((row[0],row[2]))
+
+        return json.dumps(top_movies)
 
 
     def recommends(self, myRatings):
@@ -127,14 +133,14 @@ class RecommendationEngine:
         print  "in spark"
         print myRatings
         myRatingsRDD = self.sc.parallelize(myRatings)
-        # print myRatings
-        self.ratings_RDD = self.ratings_init_RDD.union(myRatingsRDD)
+        self.ratings_RDD = self.ratings_RDD.union(myRatingsRDD)
         self.__count_and_average_ratings()
         # Re-train the ALS model with the new ratings
         self.__train_model()
         new_user_ratings_ids = map(lambda x: x[1], myRatings) # get just movie IDs
         new_user_unrated_movies_RDD = (self.movies_RDD.filter(lambda x: x[0] not in new_user_ratings_ids).map(lambda x: (new_user_ID, x[0])))
         new_user_recommendations_RDD = self.model.predictAll(new_user_unrated_movies_RDD)
+        self.ratings_RDD = self.ratings_RDD.subtract(myRatingsRDD)
         new_user_recommendations_rating_RDD = new_user_recommendations_RDD.map(lambda x: (x.product, x.rating))
         new_user_recommendations_rating_title_and_count_RDD = \
         new_user_recommendations_rating_RDD.join(self.movies_titles_RDD).join(self.movies_genres).join(self.movies_rating_counts_RDD)
@@ -145,7 +151,8 @@ class RecommendationEngine:
 
         # print ('TOP recommended movies (with more than 25 reviews):\n%s' %
             # '\n'.join(map(str, top_movies)))
-        return map(str, top_movies)
+        # print top_movies[0][0]
+        return top_movies
     
     def get_top_ratings(self, user_id, movies_count):
         """Recommends up to movies_count top unrated movies to user_id

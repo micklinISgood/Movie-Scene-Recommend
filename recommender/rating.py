@@ -36,14 +36,17 @@ def Recommend(uid):
 		rec_list = recommendation_engine.recommends(intput_table)
 
 		# ret = [(t[0],t[2]) for t in rec_list]
-		print rec_list
+		print "out spark"
+		# print  rec_list
 		ret = []
 		for row in rec_list:
-			content = row.split(",")
-			ret.append(( str(content[0][3:-1]),str(content[2][3:-1]) ))
+			# print row[0],row[2]
+		# 	# content = row.split(",")
+		# 	# ret.append(( str(content[0][3:-1]),str(content[2][3:-1]) ))
+			ret.append((row[0],row[2]))
 		data ={}
 		data["uid"]=uid
-		data["rec_list"] = ret 
+		data["rec_list"] = ret
 		print json.dumps(data)
 		socketIO.emit('recommendUser',json.dumps(data))
 
@@ -61,14 +64,22 @@ def worker():
 		msg =json.loads(body["Message"])
 		queue.delete_message(message)
 		
-		if msg["event"] not in ["watch_interval","click_video"] or msg["mid"] not in movielen: continue 
+		if "event" not in msg or "uid" not in msg or "mid" not in msg \
+		or len(msg["uid"])==0 or msg["event"] not in ["watch_interval","click_video"] or msg["mid"] not in movielen: continue 
 		
 		if msg["event"] == "watch_interval":
 
 			print msg["uid"], msg["watch_interval"],msg["mid"]
-			intterval = msg["watch_interval"].split(":")
-			diff = float(intterval[1])-float(intterval[0])
-			rate_map[msg["uid"]][msg["mid"]]+= round(diff*3/movielen[msg["mid"]],2) 
+			try:
+				intterval = msg["watch_interval"].split(":")
+				diff = float(intterval[1])-float(intterval[0])
+				if diff <= 0: continue
+				rate_map[msg["uid"]][msg["mid"]]+= round(diff*3/movielen[msg["mid"]],2) 
+			except Exception, e:
+				print e
+		
+			
+			
 		
 		if msg["event"] == "click_video":
 			print msg["uid"],msg["mid"] 
