@@ -32,7 +32,7 @@ function printRecList(list){
 	for(var i in list){
 		
 	
-		j = i+1;
+		j = parseInt(i)+1;
 		var cell1 = row1.insertCell(-1);
 
 		cell1.style = "color: #e6ffff;"
@@ -64,7 +64,7 @@ function printSceneRecList(list){
 	
 	for(var i in list){
 	
-		j = i+1;
+		j = parseInt(i)+1;
 		var cell1 = row1.insertCell(-1);
 		cell1.style = "color: #e6ffff;"
 		cell1.innerHTML = 'Top '+j+' <br>'+list[i][0] + '<br>' + list[i][1];
