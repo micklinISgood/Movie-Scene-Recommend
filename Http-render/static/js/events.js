@@ -47,7 +47,7 @@ function printRecList(list){
 
 	}
 	p = document.createElement('p');
-	p.style = "color: #e6ffff;"
+	p.style = "color: #ffffff;"
 	p.innerHTML = "ALS Recommendation List:";
 	p.appendChild(t)
 	table.appendChild(p);
@@ -79,7 +79,7 @@ function printSceneRecList(list){
 
 	}
 	p = document.createElement('p');
-	p.style = "color: #e6ffff;"
+	p.style = "color: #ffffff;"
 	p.innerHTML = "Scene Recommendation List:";
 	p.appendChild(t)
 	table.appendChild(p);
