@@ -31,12 +31,12 @@ function printRecList(list){
 	
 	for(var i in list){
 		
-
 	
+		j = i+1;
 		var cell1 = row1.insertCell(-1);
 
 		cell1.style = "color: #e6ffff;"
-		cell1.innerHTML =  'Top '+i+' :<br>'+list[i][0] + '<br>' + list[i][1];
+		cell1.innerHTML =  'Top '+j+' <br>'+list[i][0] + '<br>' + list[i][1];
 		
 		var cell2 = row1.insertCell(-1);
 		cell2.style = "color: #000000;"
@@ -63,11 +63,11 @@ function printSceneRecList(list){
 	var row2 = t.insertRow(1);
 	
 	for(var i in list){
-		
-
+	
+		j = i+1;
 		var cell1 = row1.insertCell(-1);
 		cell1.style = "color: #e6ffff;"
-		cell1.innerHTML = 'Top '+i+' :<br>'+list[i][0] + '<br>' + list[i][1];
+		cell1.innerHTML = 'Top '+j+' <br>'+list[i][0] + '<br>' + list[i][1];
 		
 		var cell2 = row1.insertCell(-1);
 		cell2.style = "color:  #000000;"
