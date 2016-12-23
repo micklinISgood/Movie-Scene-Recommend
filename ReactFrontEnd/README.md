@@ -1,0 +1,1 @@
+react15.0.2, redux3.5.2, react router2.4.0, bebel (es6) 6, bebel-polyfill, webpack1.13, mocha, ESlint, babel-preset-react-hmre
